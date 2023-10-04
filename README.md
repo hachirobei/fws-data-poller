@@ -1,4 +1,4 @@
-# FWS Data Fetcher
+# FWS Data Poller
 
 This repository manages the data fetching service for the Flood Warning System.
 
