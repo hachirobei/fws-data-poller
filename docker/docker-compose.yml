@@ -6,9 +6,9 @@ services:
       context: ..
       dockerfile: docker/Dockerfile
       args:
-        PORT: $FWS_INFO_SERVICE_PORT}
+        PORT: "${FWS_DATA_POLLER_PORT}"
     ports:
-      - "${FWS_INFO_SERVICE_PORT}:${FWS_INFO_SERVICE_PORT}"
+      - "${FWS_DATA_POLLER_PORT}:${FWS_DATA_POLLER_PORT}"
     depends_on:
       - mongodb-flood
     environment:
@@ -20,7 +20,7 @@ services:
   mongodb-flood:
     image: "mongo:latest"
     ports:
-      - "${FWS_INFO_SERVICE_DB_PORT}:${FWS_INFO_SERVICE_DB_PORT}"
+      - "${FWS_DATA_POLLER_DB_PORT}:27017"
     volumes:
       - flood-mongo-data:/data/db
     environment:
