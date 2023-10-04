@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  fws-info-service:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        PORT: $FWS_INFO_SERVICE_PORT}
+    ports:
+      - "$FWS_INFO_SERVICE_PORT}:$FWS_INFO_SERVICE_PORT}"
+    depends_on:
+      - mongodb-flood
+    environment:
+      - NODE_ENV=development
+    networks:
+      - flood_shared_network
+
+  
+  mongodb-flood:
+    image: "mongo:latest"
+    ports:
+      - "${FWS_INFO_SERVICE_DB_PORT}:${FWS_INFO_SERVICE_DB_PORT}"
+    volumes:
+      - flood-mongo-data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    networks:
+      - flood_shared_network
+
+
+volumes:
+  flood-mongo-data:
+
+networks:
+  flood_shared_network:
+    external: true
