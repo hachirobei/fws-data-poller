@@ -1,12 +1,12 @@
-version: '3'
+version: '3.8'
 
 services:
   fws-data-poller:
     build:
       context: ..
-      dockerfile: docker/Dockerfile
-      args:
-        PORT: "${FWS_DATA_POLLER_PORT}"
+      dockerfile: docker/dockerfile
+    container_name: fws_data_poller
+    hostname: fws_data_poller
     ports:
       - "${FWS_DATA_POLLER_PORT}:${FWS_DATA_POLLER_PORT}"
     environment:

@@ -1,4 +1,4 @@
-const { fetchFloodWarningData, updateFloodDataInService } = require('./dataService');
+const { fetchFloodWarningData, updateFloodDataInService } = require('../models/dataService');
 require('dotenv').config();
 
 let FWS_INFO_SERVICE_URL = process.env.FWS_INFO_SERVICE_URL;
