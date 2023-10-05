@@ -28,6 +28,3 @@ exports.handleData = async () => {
 
 // Run the function immediately upon invocation
 exports.handleData();
-
-// Then set it to run every 15 minutes
-setInterval(exports.handleData, 15 * 60 * 1000);
