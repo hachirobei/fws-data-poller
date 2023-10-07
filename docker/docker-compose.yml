@@ -4,7 +4,7 @@ services:
   fws-data-poller:
     build:
       context: ..
-      dockerfile: docker/dockerfile
+      dockerfile: docker/Dockerfile
     container_name: fws_data_poller
     hostname: fws_data_poller
     ports:
