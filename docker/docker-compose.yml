@@ -10,7 +10,7 @@ services:
     ports:
       - "${FWS_DATA_POLLER_PORT}:${FWS_DATA_POLLER_PORT}"
     environment:
-      - NODE_ENV=development
+      - FWS_INFO_SERVICE_URL=http://fws-info-service:3002/api
     networks:
       - flood_shared_network
 
