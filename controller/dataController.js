@@ -13,7 +13,7 @@ FWS_INFO_SERVICE_URL += '/update-flood-data'
 exports.handleData = async () => {
     try {
         const data = await fetchFloodWarningData();
-        const statusCode = await updateFloodDataInService(data, FWS_INFO_SERVICE_URL);
+        const statusCode = await updateFloodDataInService(FWS_INFO_SERVICE_URL,data);
 
         if (statusCode === 200) {
             console.log("Flood data successfully updated in fws-info-service.");
