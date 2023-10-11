@@ -10,21 +10,20 @@ if (FWS_INFO_SERVICE_URL.endsWith('/')) {
 
 FWS_INFO_SERVICE_URL += '/update-flood-data'
 
+console.log('FWS_INFO_SERVICE_URL:', FWS_INFO_SERVICE_URL);
+
 exports.handleData = async () => {
     try {
         const data = await fetchFloodWarningData();
-        const statusCode = await updateFloodDataInService(FWS_INFO_SERVICE_URL,data);
+        const response = await updateFloodDataInService(FWS_INFO_SERVICE_URL, data, 50);  // Use FWS_INFO_SERVICE_URL here
 
-        if (statusCode === 200) {
+        if (response.status === 'success' || response.status === 'partial_success') {
             console.log("Flood data successfully updated in fws-info-service.");
         } else {
-            console.error("Failed to update flood data in fws-info-service. Response code:", statusCode);
+            console.error("Failed to update flood data in fws-info-service.");
         }
 
     } catch (error) {
         console.error("Error fetching or updating flood warning data:", error.message);
     }
 };
-
-// Run the function immediately upon invocation
-exports.handleData();

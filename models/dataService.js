@@ -21,25 +21,34 @@ exports.fetchFloodWarningData = async () => {
  * @throws Will throw an error if a request fails.
  */
 exports.updateFloodDataInService = async (url, data, chunkSize = 100) => {
-    try {
-        const chunks = [];
-        for (let i = 0; i < data.length; i += chunkSize) {
-            chunks.push(data.slice(i, i + chunkSize));
-        }
+    // Create chunks
+    const chunks = Array.from({ length: Math.ceil(data.length / chunkSize) }, (_, index) => {
+        return data.slice(index * chunkSize, (index + 1) * chunkSize);
+    });
 
-        for (const chunk of chunks) {
+    const results = [];
+
+    // Send chunks
+    for (const [index, chunk] of chunks.entries()) {
+        try {
             const response = await axios.post(url, chunk, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log(`Chunk sent. Response status: ${response.status}`);
+            console.log(`Chunk ${index + 1} sent with status: ${response.status}`);
+            results.push({ chunkIndex: index + 1, responseStatus: response.status });
+        } catch (error) {
+            console.error(`Error sending chunk ${index + 1}:`, error);
+            results.push({ chunkIndex: index + 1, error: error.message });
         }
-        
-        return { status: 'success', chunksSent: chunks.length };
+    }
 
-    } catch (error) {
-        console.error('Error:', error);
-        throw error;
+    const successfulRequests = results.filter(r => r.responseStatus === 200).length;
+
+    if (successfulRequests === chunks.length) {
+        return { status: 'success', chunksSent: chunks.length, details: results };
+    } else {
+        return { status: 'partial_success', chunksSent: successfulRequests, details: results };
     }
 };

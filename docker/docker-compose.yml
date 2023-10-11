@@ -13,6 +13,8 @@ services:
       - FWS_INFO_SERVICE_URL=http://fws-info-service:3002/api
     networks:
       - flood_shared_network
+    volumes:
+      - ../:/usr/src/app
 
 networks:
   flood_shared_network:
